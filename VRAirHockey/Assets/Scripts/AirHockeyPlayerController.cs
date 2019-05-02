@@ -2,6 +2,8 @@
 
 public class AirHockeyPlayerController : MonoBehaviour {
 
+    public float m_MaxMoveSpeed = 5;
+
 	private bool m_WasJustClicked = true;
 	private bool m_CanMove;
     //Vector2 playerSize;
@@ -13,20 +15,57 @@ public class AirHockeyPlayerController : MonoBehaviour {
     // Bit shift the index of the layer (8) to get a bit mask
     private int m_PlayGroundLayerMask = 1 << 9;
 
+    public Transform m_BoundaryHolder;
 
+    private Boundary m_PlayerBoundary;
+    private Vector3 m_TargetPosition;
 
     void Start () {
 
         //PONER LA Y SEGUN LA ALTURA DEL JUGADOR (preguntar antes de empezar el juego)
 
-	}
+        //importante el orden de los hijos
+        m_PlayerBoundary = new Boundary(m_BoundaryHolder.GetChild(0).position.z, //up
+                                        m_BoundaryHolder.GetChild(1).position.z, //down
+                                        m_BoundaryHolder.GetChild(2).position.x, //left
+                                        m_BoundaryHolder.GetChild(3).position.x //right
+                                        );
+
+        m_TargetPosition = m_PlayerRB.position;
+
+    }
 
 	void FixedUpdate () {
         //MovePlayerForTablets();
-        FollowMove();
+        //FollowMouse();
+        FollowPosition();
     }
 
-    public void FollowMove()
+    public void FollowPosition()
+    {
+
+        Ray ray3 = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Debug.DrawRay(ray3.origin, ray3.direction * 10, Color.yellow);
+
+        RaycastHit hitGround;
+
+        if (Physics.Raycast(ray3, out hitGround, m_RayLength, m_PlayGroundLayerMask)) //Si no ho fem en la layer mask, esta tot el rato xocant contra el jugador y te dona posicions incorrectes (pero aproximades)
+        {
+            float laX = Mathf.Clamp(hitGround.point.x, m_PlayerBoundary.Left, m_PlayerBoundary.Right); //Left y Right hacen de minimo y maximo, y si la primera variable supera alguno de estos dos, se devolvera el minimo o el maximo, sino la variable tal cual
+            float laZ = Mathf.Clamp(hitGround.point.z, m_PlayerBoundary.Down, m_PlayerBoundary.Up); //Left y Right hacen de minimo y maximo, y si la primera variable supera alguno de estos dos, se devolvera el minimo o el maximo, sino la variable tal cual
+
+
+            m_TargetPosition = new Vector3(laX, m_PlayerStriker.transform.position.y, laZ);
+
+        }
+
+        m_PlayerRB.MovePosition(Vector3.MoveTowards(m_PlayerRB.position, m_TargetPosition, m_MaxMoveSpeed * Time.fixedDeltaTime));
+
+
+
+    }
+
+    public void FollowMouse()
     {
         Ray ray2 = Camera.main.ScreenPointToRay(Input.mousePosition);
         Debug.DrawRay(ray2.origin, ray2.direction * 10, Color.yellow);
@@ -35,7 +74,13 @@ public class AirHockeyPlayerController : MonoBehaviour {
 
         if (Physics.Raycast(ray2, out hitGround, m_RayLength, m_PlayGroundLayerMask)) //Si no ho fem en la layer mask, esta tot el rato xocant contra el jugador y te dona posicions incorrectes (pero aproximades)
         {
-            m_PlayerRB.MovePosition(new Vector3(hitGround.point.x, m_PlayerStriker.transform.position.y, hitGround.point.z));
+            float laX = Mathf.Clamp(hitGround.point.x, m_PlayerBoundary.Left, m_PlayerBoundary.Right); //Left y Right hacen de minimo y maximo, y si la primera variable supera alguno de estos dos, se devolvera el minimo o el maximo, sino la variable tal cual
+            float laZ = Mathf.Clamp(hitGround.point.z, m_PlayerBoundary.Down, m_PlayerBoundary.Up); //Left y Right hacen de minimo y maximo, y si la primera variable supera alguno de estos dos, se devolvera el minimo o el maximo, sino la variable tal cual
+
+
+            m_PlayerRB.MovePosition(new Vector3(laX, m_PlayerStriker.transform.position.y, laZ));
+
+            //m_PlayerRB.MovePosition(new Vector3(hitGround.point.x, m_PlayerStriker.transform.position.y, hitGround.point.z)); //aixina es sense el Clamp y xocant en boundaries si no es kinematic
             //m_PlayerStriker.transform.position = new Vector3(hitGround.point.x, m_PlayerStriker.transform.position.y, hitGround.point.z); //aixina no calcula be el colp
         }
 
@@ -86,7 +131,5 @@ public class AirHockeyPlayerController : MonoBehaviour {
 
 
     }
-
-
 
 }
