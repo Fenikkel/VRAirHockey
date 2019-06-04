@@ -19,7 +19,7 @@ public class WallPush : MonoBehaviour
         if (other.gameObject.tag == "Puck")
         {
 
-            print("walled");
+//print("walled");
 
             m_HitDirection = other.transform.position - transform.position; //asi cojemos la direccion contraria a la que el jugador estaba iendo
 
@@ -34,6 +34,9 @@ public class WallPush : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        m_PuckController.KnockBack(m_HitDirection);
+        if (other.gameObject.tag == "Puck")
+        {
+            m_PuckController.KnockBack(m_HitDirection);
+        }
     }
 }

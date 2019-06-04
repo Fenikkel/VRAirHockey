@@ -24,10 +24,17 @@ public class IA : MonoBehaviour
     private float m_OffsetXFromTarget;
 
     public float m_RetreatTime = 1;
-    private float m_RetreatCounter;
+    private float m_RetreatCounter = 0;
+    private float m_CulDeSacCounter = 0; 
+    public float m_CulDeSacTimeTrigger = 1.5f; //tiempo que tarda en activarse la retirada
+    public float m_CulDeSacDistance = 6.0f;
+
+    public float m_HitOffset = 0.2f; //Molt cutre aço
+
 
     private void Start()
     {
+        
         m_EnemyRB = GetComponent<Rigidbody>();
         m_StartingPosition = m_EnemyRB.position;
 
@@ -43,20 +50,33 @@ public class IA : MonoBehaviour
                                 m_EnemyPuckBoundaryHolder.GetChild(3).position.x //right
                                 );
     }
-
+    private void Update()
+    {
+        Closer();
+    }
     private void FixedUpdate()
     {
-        Debug.Log(m_RetreatCounter);
+        //Debug.Log(m_RetreatCounter);
         float movementSpeed;
 
 
 
-        if (m_PuckRB.position.z < m_EnemyPuckBoundary.Down || m_RetreatCounter > 0) //si el puck esta en la zona del otro jugador...
+        if (m_RetreatCounter > 0)
         {
-
             m_RetreatCounter -= Time.fixedDeltaTime;
 
-            if (m_isFirstTimeInOpponentsHalf)
+            movementSpeed = m_MaxMovementSpeed * Random.Range(0.1f, 0.3f);
+            m_TargetPosition = new Vector3(m_StartingPosition.x,
+                                           m_StartingPosition.y,
+                                           m_StartingPosition.z); //vuelve a proteger la porteria
+        }
+
+        else if (m_PuckRB.position.z < m_EnemyPuckBoundary.Down) //si el puck esta en la zona del otro jugador o esta en modo retirada
+        {
+
+           
+
+            if (m_isFirstTimeInOpponentsHalf) //debuff para el enemigo
             {
                 m_isFirstTimeInOpponentsHalf = false;
                 m_OffsetXFromTarget = Random.Range(-1f, 1f);
@@ -74,11 +94,44 @@ public class IA : MonoBehaviour
 
 
             movementSpeed = Random.Range(m_MaxMovementSpeed * 0.4f, m_MaxMovementSpeed);
-            m_TargetPosition = new Vector3(Mathf.Clamp(m_PuckRB.position.x, m_EnemyBoundary.Left,
+
+            //No ha de ir a la posicion, sino a esa posicion -+ la mitad del tamaño del puck
+
+            float xOffset = m_PuckRB.position.x - this.transform.position.x; //luego lo reutilizamos poniendo el valor adecuado
+            float zOffset = m_PuckRB.position.z - this.transform.position.z;
+
+
+            if (xOffset<0)
+            {
+                xOffset = m_PuckRB.position.x + m_HitOffset;
+            }
+            else
+            {
+                xOffset = m_PuckRB.position.x - m_HitOffset;
+            }
+
+            if (zOffset < 0)
+            {
+                zOffset = m_PuckRB.position.z + m_HitOffset;
+            }
+            else
+            {
+                zOffset = m_PuckRB.position.z - m_HitOffset;
+            }
+
+
+            m_TargetPosition = new Vector3(Mathf.Clamp(xOffset, m_EnemyBoundary.Left,
+                                            m_EnemyBoundary.Right),
+                                            m_StartingPosition.y,
+                                            Mathf.Clamp(zOffset, m_EnemyBoundary.Down,
+                                            m_EnemyBoundary.Up));
+
+
+            /*m_TargetPosition = new Vector3(Mathf.Clamp(m_PuckRB.position.x, m_EnemyBoundary.Left,
                                             m_EnemyBoundary.Right),
                                             m_StartingPosition.y,
                                             Mathf.Clamp(m_PuckRB.position.z, m_EnemyBoundary.Down,
-                                            m_EnemyBoundary.Up));
+                                            m_EnemyBoundary.Up));*/
 
         }
 
@@ -92,6 +145,36 @@ public class IA : MonoBehaviour
     public void Retreat()
     {
         m_RetreatCounter = m_RetreatTime;
+    }
+
+    private void Closer()
+    {
+        float distance = Vector3.Distance(this.transform.position, m_PuckRB.position);
+
+        if (distance <= m_CulDeSacDistance)
+        {
+            m_CulDeSacCounter += Time.deltaTime;
+
+            if (m_CulDeSacTimeTrigger < m_CulDeSacCounter)
+            {
+                Retreat(); //se retira el striker
+                m_CulDeSacCounter = 0; //para que no entre mientras este en retreat
+            }
+        }
+        else
+        {
+            m_CulDeSacCounter = 0;
+        }
+        //print("DistanceBetween "+ distance);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.tag == "Puck")
+        {
+            Retreat();
+
+        }
     }
 
 

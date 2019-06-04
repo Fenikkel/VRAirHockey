@@ -40,15 +40,22 @@ public class IAStrikerPush : MonoBehaviour
     {
 
         //SI ESTA ALGO DE RATO, HACEMOS EL RETREAT
+        if (other.gameObject.tag == "Puck")
+        {
 
-        m_HitDirection = new Vector3(m_HitDirection.x, m_HitDirection.y, m_HitDirection.z);
+            m_HitDirection = new Vector3(m_HitDirection.x, m_HitDirection.y, m_HitDirection.z);
 
-        //m_HitDirection = new Vector3(m_HitDirection.x + m_RandomBounce, m_HitDirection.y, m_HitDirection.z - m_RandomBounce);
-        m_PuckController.KnockBack(m_HitDirection);
+            //m_HitDirection = new Vector3(m_HitDirection.x + m_RandomBounce, m_HitDirection.y, m_HitDirection.z - m_RandomBounce);
+            m_PuckController.KnockBack(m_HitDirection);
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        //SONIDO DE GOLPE
+        //SONIDO DE GOLPEç
+        if (other.gameObject.tag == "Puck")
+        {
+
+        }
     }
 }

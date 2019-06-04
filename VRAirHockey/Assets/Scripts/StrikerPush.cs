@@ -34,7 +34,10 @@ public class StrikerPush : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        m_PuckController.KnockBack(m_HitDirection);
+        if (other.gameObject.tag == "Puck")
+        {
+            m_PuckController.KnockBack(m_HitDirection);
+        }
     }
 
     private void OnTriggerExit(Collider other)
