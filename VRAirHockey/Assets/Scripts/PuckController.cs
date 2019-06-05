@@ -48,7 +48,7 @@ public class PuckController : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         //da igual con que
-        m_HitAudioSource.Play();
+
         m_HitAudioSource.pitch = Random.Range(m_OriginalPitch - m_PitchRange, m_OriginalPitch + m_PitchRange); //valor entre 0.8 i 1.2 //se fa eixina per a no tindre magic numbers en el cas de que es restructurara el codic
         m_HitAudioSource.Play();
 

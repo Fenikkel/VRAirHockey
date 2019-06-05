@@ -31,6 +31,8 @@ public class IA : MonoBehaviour
 
     public float m_HitOffset = 0.2f; //Molt cutre aço
 
+    public bool m_EnableIA = true;
+
 
     private void Start()
     {
@@ -56,6 +58,19 @@ public class IA : MonoBehaviour
     }
     private void FixedUpdate()
     {
+
+        if (m_EnableIA)
+        {
+            IABehaviour();
+
+        }
+
+
+
+    }
+
+    private void IABehaviour()
+    {
         //Debug.Log(m_RetreatCounter);
         float movementSpeed;
 
@@ -74,7 +89,7 @@ public class IA : MonoBehaviour
         else if (m_PuckRB.position.z < m_EnemyPuckBoundary.Down) //si el puck esta en la zona del otro jugador o esta en modo retirada
         {
 
-           
+
 
             if (m_isFirstTimeInOpponentsHalf) //debuff para el enemigo
             {
@@ -101,7 +116,7 @@ public class IA : MonoBehaviour
             float zOffset = m_PuckRB.position.z - this.transform.position.z;
 
 
-            if (xOffset<0)
+            if (xOffset < 0)
             {
                 xOffset = m_PuckRB.position.x + m_HitOffset;
             }
@@ -136,11 +151,7 @@ public class IA : MonoBehaviour
         }
 
         m_EnemyRB.MovePosition(Vector3.MoveTowards(m_EnemyRB.position, m_TargetPosition, movementSpeed * Time.fixedDeltaTime));
-
-        
-
     }
-
 
     public void Retreat()
     {
@@ -175,6 +186,11 @@ public class IA : MonoBehaviour
             Retreat();
 
         }
+    }
+
+    public void EnableIA(bool boleanio)
+    {
+        m_EnableIA = boleanio;
     }
 
 

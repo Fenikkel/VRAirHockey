@@ -32,7 +32,6 @@ public class Goal : MonoBehaviour
                 m_GameManager.PlayerScores();
 
             }
-            Time.timeScale = 0.25f;
 
 
 

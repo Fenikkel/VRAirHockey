@@ -20,6 +20,8 @@ public class AirHockeyPlayerController : MonoBehaviour {
     private Boundary m_PlayerBoundary;
     private Vector3 m_TargetPosition;
 
+    public bool m_ControlsEnabled = true;
+
     void Start () {
 
         //PONER LA Y SEGUN LA ALTURA DEL JUGADOR (preguntar antes de empezar el juego)
@@ -38,7 +40,11 @@ public class AirHockeyPlayerController : MonoBehaviour {
 	void FixedUpdate () {
         //MovePlayerForTablets();
         //FollowMouse();
-        FollowPosition();
+        if (m_ControlsEnabled)
+        {
+            FollowPosition();
+
+        }
     }
 
     public void FollowPosition()
@@ -130,6 +136,11 @@ public class AirHockeyPlayerController : MonoBehaviour {
         }
 
 
+    }
+
+    public void ControlsEnabled(bool boleano)
+    {
+        m_ControlsEnabled = boleano;
     }
 
 }
