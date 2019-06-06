@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Puck
   - Striker
+  - RedStriker
+  - BlueStriker
   layers:
   - Default
   - TransparentFX
@@ -17,8 +19,8 @@ TagManager:
   - 
   - PostProcessing
   - Playground
-  - 
-  - 
+  - Player
+  - Enemy
   - 
   - 
   - 
