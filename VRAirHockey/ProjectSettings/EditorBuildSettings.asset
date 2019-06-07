@@ -4,8 +4,4 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes:
-  - enabled: 1
-    path: Assets/AirHockeyVideogame/Scenes/AirHockey.unity
-    guid: 3f209c2781c1a4f4794dfe6b3b95d98e
-  m_configObjects: {}
+  m_Scenes: []

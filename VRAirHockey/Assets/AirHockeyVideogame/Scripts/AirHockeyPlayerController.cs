@@ -7,7 +7,7 @@ public class AirHockeyPlayerController : MonoBehaviour {
 	private bool m_WasJustClicked = true;
 	private bool m_CanMove;
     //Vector2 playerSize;
-    public GameObject particle;
+    //public GameObject particle;
     public float m_RayLength = 200;
     public Transform m_PlayerStriker;
     public Rigidbody m_PlayerRB;
@@ -38,12 +38,12 @@ public class AirHockeyPlayerController : MonoBehaviour {
     }
 
 	void FixedUpdate () {
-        //MovePlayerForTablets();
-        //FollowMouse();
+      
         if (m_ControlsEnabled)
         {
-            FollowPosition();
-
+            //FollowPosition();
+            //MovePlayerForTablets();
+            FollowMouse();
         }
     }
 
@@ -84,7 +84,10 @@ public class AirHockeyPlayerController : MonoBehaviour {
             float laZ = Mathf.Clamp(hitGround.point.z, m_PlayerBoundary.Down, m_PlayerBoundary.Up); //Left y Right hacen de minimo y maximo, y si la primera variable supera alguno de estos dos, se devolvera el minimo o el maximo, sino la variable tal cual
 
 
-            m_PlayerRB.MovePosition(new Vector3(laX, m_PlayerStriker.transform.position.y, laZ));
+            //m_PlayerRB.MovePosition(new Vector3(laX, m_PlayerStriker.transform.position.y, laZ));
+            Vector3 newVector = new Vector3(laX, m_PlayerStriker.transform.position.y, laZ);
+            m_PlayerRB.MovePosition(Vector3.MoveTowards(m_PlayerRB.position, newVector, m_MaxMoveSpeed * Time.fixedDeltaTime));
+
 
             //m_PlayerRB.MovePosition(new Vector3(hitGround.point.x, m_PlayerStriker.transform.position.y, hitGround.point.z)); //aixina es sense el Clamp y xocant en boundaries si no es kinematic
             //m_PlayerStriker.transform.position = new Vector3(hitGround.point.x, m_PlayerStriker.transform.position.y, hitGround.point.z); //aixina no calcula be el colp

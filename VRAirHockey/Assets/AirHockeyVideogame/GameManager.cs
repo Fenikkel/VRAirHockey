@@ -44,6 +44,8 @@ public class GameManager : MonoBehaviour
 
     private TimeManager m_TimeManager;
 
+    public bool m_VRMode = false;
+
 
     private void Start()
     {
@@ -81,7 +83,7 @@ public class GameManager : MonoBehaviour
         //m_PuckSpawn = GameObject.FindGameObjectWithTag("Puck").transform.position;
         StartCoroutine(StartGame());
     }
-
+    
     public void PlayerScores()
     {
         m_PlayerGoals += m_GoalValue;
@@ -106,13 +108,19 @@ public class GameManager : MonoBehaviour
 
     private void ResetPlayground()
     {
-        m_PlayerController.ControlsEnabled(false);
+        if (!m_VRMode)
+        {
+            m_PlayerController.ControlsEnabled(false);
+            m_PlayerController.ControlsEnabled(false);
+            m_PlayerStriker.transform.position = m_PlayerStrikerSpawn;
+
+
+        }
         m_EnemyIA.EnableIA(false);
 
         m_Puck.SetActive(true);
         m_Puck.transform.position = m_PuckSpawn;
         m_PuckRB.velocity = Vector3.zero;
-        m_PlayerStriker.transform.position = m_PlayerStrikerSpawn;
         m_EnemyStriker.transform.position = m_EnemyStrikerSpawn;
 
         m_PuckScript.RestartMaterial();
@@ -127,8 +135,13 @@ public class GameManager : MonoBehaviour
         Vector3 direction = new Vector3(0, 0, z);
 
         m_PuckScript.KnockBack(direction * m_StartPushForce);
-        m_PlayerController.ControlsEnabled(true);
         m_EnemyIA.EnableIA(true);
+
+        if (!m_VRMode)
+        {
+            m_PlayerController.ControlsEnabled(true);
+
+        }
 
         //Time.timeScale = 1.0f;
     }

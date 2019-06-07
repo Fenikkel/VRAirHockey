@@ -7,8 +7,8 @@ public class Goal : MonoBehaviour
     private GameManager m_GameManager;
 
     public bool m_PlayerGoal; // Si es la porteria del jugador 
-    public ParticleSystem m_Explosion;
-    private ParticleSystem m_Rubish;
+    public GameObject m_Explosion;
+    private GameObject m_Rubish;
 
 
     private void Awake()
@@ -44,7 +44,10 @@ public class Goal : MonoBehaviour
 
     IEnumerator WaitForDestroy()
     {
-        yield return new WaitForSeconds(m_Explosion.main.duration / m_Explosion.main.simulationSpeed);
+        //print(m_Explosion.GetComponent<ParticleSystem>().main.duration);
+        //print(m_Explosion.GetComponent<ParticleSystem>().main.simulationSpeed);
+
+        yield return new WaitForSeconds(m_Explosion.GetComponent<ParticleSystem>().main.duration / m_Explosion.GetComponent<ParticleSystem>().main.simulationSpeed);
         Destroy(m_Rubish);
 
     }

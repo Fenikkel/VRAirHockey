@@ -3,11 +3,7 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags:
-  - Puck
-  - Striker
-  - RedStriker
-  - BlueStriker
+  tags: []
   layers:
   - Default
   - TransparentFX
@@ -17,10 +13,10 @@ TagManager:
   - UI
   - 
   - 
-  - PostProcessing
-  - Playground
-  - Player
-  - Enemy
+  - 
+  - 
+  - 
+  - 
   - 
   - 
   - 

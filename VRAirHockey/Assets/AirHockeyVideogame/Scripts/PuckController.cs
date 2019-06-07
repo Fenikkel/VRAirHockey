@@ -32,6 +32,9 @@ public class PuckController : MonoBehaviour
         //print("KNOCK KNOCK ");
 
         m_PuckRB.AddForce(direction, ForceMode.Impulse); //Add an instant force impulse to the rigidbody, using its mass.
+        //m_PuckRB.velocity = direction;
+        //m_PuckRB.AddForce(direction, ForceMode.Force); //Add an instant force impulse to the rigidbody, using its mass.
+
 
         /*if (m_PuckRB.velocity.Equals(Vector3.zero))
         {
