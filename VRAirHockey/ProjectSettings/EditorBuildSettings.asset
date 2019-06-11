@@ -4,4 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/AirHockeyVideogame/Scenes/Buenas/VR/VRMainMenu.unity
+    guid: 6944cbc172ee76a4ea0305348ea816a4
+  - enabled: 1
+    path: Assets/AirHockeyVideogame/Scenes/Buenas/VR/VRAirHockey.unity
+    guid: da5eff8dd5ccd3743847c6d72c4a3b29
+  m_configObjects: {}

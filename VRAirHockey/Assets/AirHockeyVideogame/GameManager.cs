@@ -88,10 +88,10 @@ public class GameManager : MonoBehaviour
     {
         m_PlayerGoals += m_GoalValue;
         m_Round++;
-        m_GoalText.color = m_RedColor;
+        m_GoalText.color = m_BlueColor;
 
         m_PlayerScoreText.text = m_PlayerGoals.ToString();
-        m_GoalText.text = "RED SCORES";
+        m_GoalText.text = "BLUE SCORES";
         StartCoroutine(RoundCountdown());
     }
 
@@ -99,8 +99,8 @@ public class GameManager : MonoBehaviour
     {
         m_EnemyGoals += m_GoalValue;
         m_Round++;
-        m_GoalText.color = m_BlueColor;
-        m_GoalText.text = "BLUE SCORES";
+        m_GoalText.color = m_RedColor;
+        m_GoalText.text = "RED SCORES";
         m_EnemyScoreText.text = m_EnemyGoals.ToString();
         StartCoroutine(RoundCountdown());
 
