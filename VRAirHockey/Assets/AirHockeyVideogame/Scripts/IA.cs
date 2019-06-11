@@ -34,11 +34,18 @@ public class IA : MonoBehaviour
     public bool m_EnableIA = true;
 
 
+    private void Awake()
+    {
+        m_EnemyRB = GetComponent<Rigidbody>();
+        m_StartingPosition = m_EnemyRB.position;
+        print(m_StartingPosition);
+
+    }
+
     private void Start()
     {
         
-        m_EnemyRB = GetComponent<Rigidbody>();
-        m_StartingPosition = m_EnemyRB.position;
+        
 
         m_EnemyBoundary = new Boundary(m_EnemyBoundaryHolder.GetChild(0).position.z, //up
                                         m_EnemyBoundaryHolder.GetChild(1).position.z, //down
@@ -190,6 +197,7 @@ public class IA : MonoBehaviour
 
     public void EnableIA(bool boleanio)
     {
+        print(m_StartingPosition);
         m_EnableIA = boleanio;
     }
 
