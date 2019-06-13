@@ -12,7 +12,7 @@ using Valve.VR.InteractionSystem;
 
 
 [RequireComponent(typeof(SteamVR_TrackedObject))]
-public class InteractionManager : MonoBehaviour
+public class InteractionManagerVR : MonoBehaviour
 
 {
 

@@ -38,7 +38,7 @@ public class IA : MonoBehaviour
     {
         m_EnemyRB = GetComponent<Rigidbody>();
         m_StartingPosition = m_EnemyRB.position;
-        print(m_StartingPosition);
+        //print(m_StartingPosition);
 
     }
 
