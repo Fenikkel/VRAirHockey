@@ -12,7 +12,7 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: INIT
+  companyName: Fenikkel
   productName: VRAirHockey
   defaultCursor: {fileID: 2800000, guid: 30ea699bf8fe0864486c7f0ff3e15fa6, type: 3}
   cursorHotspot: {x: 0, y: 0}

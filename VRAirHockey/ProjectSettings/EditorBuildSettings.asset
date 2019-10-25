@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/AirHockeyVideogame/Scenes/Buenas/VR/VRMainMenu.unity
     guid: 6944cbc172ee76a4ea0305348ea816a4
   - enabled: 1
+    path: Assets/AirHockeyVideogame/Scenes/Buenas/VR/VRAirHockeyIES+.unity
+    guid: cd3bbaa6c1bfc3c43b3f0ea81a42d8d4
+  - enabled: 0
     path: Assets/AirHockeyVideogame/Scenes/Buenas/VR/VRAirHockeyConfigurandoRoom.unity
     guid: c54c694b82b18a5428b2fd1fa9750d6b
   m_configObjects: {}
